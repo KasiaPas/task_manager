@@ -24,5 +24,3 @@ class Task():
         " "*5 + "created: " + str(self.creation_date) + "\n" + \
         " "*5 + "description: " + str(self.description) + "\n" + \
         " "*5 + "deadline: " + str(self.due_date) + "\n" 
-        
-    
