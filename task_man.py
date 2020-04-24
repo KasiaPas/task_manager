@@ -1,5 +1,6 @@
 #libraries
 import task
+import os
 
 #variables
 list_of_tasks = []
@@ -8,6 +9,64 @@ gap = " " * gap_size
 
 #functions
 
+def search_load():
+    
+    global list_of_tasks
+    
+    if os.path.exists("list_file.txt"):
+        
+        list_file = open("list_file.txt")
+        content = list_file.readlines()
+        new_content = []
+        for ss in content:
+            z = ss.strip("\n")
+            new_content.append(z)
+        
+        content = new_content
+
+        pos = 0
+        number_of_tasks = int(len(content) / 6)
+        
+        for i in range(number_of_tasks):
+            t = task.Task(str(content[pos]))
+            pos = pos + 1
+            
+            t.progress = content[pos]
+            pos = pos + 1
+            
+            t.creation_date = content[pos]
+            pos = pos + 1
+            
+            t.description = content[pos]
+            pos = pos + 1
+            
+            t.due_date = content[pos]
+            pos = pos + 1
+            
+            t.last_update = content[pos]
+            pos = pos + 1
+            
+            list_of_tasks.append(t)
+    
+    else:
+        list_file = open("list_file.txt", "w")
+        list_file.close()
+        
+def save_list():
+    
+    list_file = open("list_file.txt", "w")
+
+    for t in list_of_tasks:
+
+        list_file.write(t.title + "\n")
+        list_file.write(str(t.progress) + "\n")
+        list_file.write(t.creation_date + "\n")
+        list_file.write(t.description + "\n")
+        list_file.write(t.due_date + "\n")
+        list_file.write(t.last_update + "\n")
+        
+    list_file.close()
+        
 def print_menu():
     
     global gap
@@ -18,7 +77,7 @@ def print_menu():
     print(gap + "2.Details")
     print(gap + "3.Add")
     print(gap + "4.Remove")
-    print(gap + "5.Exit\n")
+    print(gap + "5.Save and exit\n")
     
     
 def show_list(list_of_tasks):
@@ -170,7 +229,7 @@ def remove_task():
 if __name__ == "__main__":
     
     print("Hello! Welcome to your personal task manager!")
-    
+    search_load()
     while True:
         print_menu()
         option = input("Please pick the option by typing a number from 1-5\n")
@@ -188,6 +247,7 @@ if __name__ == "__main__":
             remove_task()
         
         elif option == "5":
+            save_list()
             break
         
         else:
